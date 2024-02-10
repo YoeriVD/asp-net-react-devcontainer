@@ -18,12 +18,12 @@
         "mssql.connections": [
           {
             "server": "localhost,1433",
-            "database": "",
+            "database": "ApplicationDB",
             "authenticationType": "SqlLogin",
             "user": "sa",
             "password": "P@ssw0rd",
             "emptyPasswordInput": false,
-            "savePassword": false,
+            "savePassword": true,
             "profileName": "mssql-container",
             "trustServerCertificate": true
           }
@@ -31,8 +31,19 @@
       },
 
       // Add the IDs of extensions you want installed when the container is created.
-      "extensions": ["ms-dotnettools.csharp", "ms-mssql.mssql"]
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-mssql.mssql",
+        "editorconfig.editorconfig",
+        "esbenp.prettier-vscode"
+      ]
     }
+  },
+  // # run over https: https://learn.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-8.0
+  "remoteEnv": {
+    "ASPNETCORE_Kestrel__Certificates__Default__Password": "password",
+    "ASPNETCORE_Kestrel__Certificates__Default__Path": "/https/aspnetapp.pfx",
+    "ConnectionStrings__DefaultConnection": "Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd"
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
