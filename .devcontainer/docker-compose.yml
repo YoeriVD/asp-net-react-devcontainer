@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-
+    platform: linux/amd64 # sql tools are not configured to install in arm64
     volumes:
       - ../..:/workspaces:cached
       - ~/.aspnet/https:/https:ro
