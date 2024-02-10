@@ -32,7 +32,6 @@
 
       // Add the IDs of extensions you want installed when the container is created.
       "extensions": [
-        "ms-dotnettools.csharp",
         "ms-mssql.mssql",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode"
