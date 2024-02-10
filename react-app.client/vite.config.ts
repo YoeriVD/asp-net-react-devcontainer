@@ -5,11 +5,11 @@ import plugin from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
 import child_process from "child_process";
-
 const baseFolder =
   process.env.APPDATA !== undefined && process.env.APPDATA !== ""
     ? `${process.env.APPDATA}/ASP.NET/https`
     : `${process.env.HOME}/.aspnet/https`;
+const pfx = "/https/aspnetapp.pfx";
 
 const certificateArg = process.argv
   .map((arg) => arg.match(/--name=(?<value>.+)/i))
@@ -49,6 +49,13 @@ if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
   }
 }
 
+const https = fs.existsSync(pfx)
+  ? { pfx, passphrase: "password" }
+  : {
+      key: fs.readFileSync(keyFilePath),
+      cert: fs.readFileSync(certFilePath),
+    };
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [plugin()],
@@ -64,11 +71,8 @@ export default defineConfig({
         secure: false,
       },
     },
+    strictPort: true,
     port: 5173,
-    https: {
-      key: fs.readFileSync(keyFilePath),
-      cert: fs.readFileSync(certFilePath),
-      
-    },
+    https: https,
   },
 });
