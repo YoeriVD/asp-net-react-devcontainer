@@ -34,7 +34,8 @@
       "extensions": [
         "ms-mssql.mssql",
         "editorconfig.editorconfig",
-        "esbenp.prettier-vscode"
+        "esbenp.prettier-vscode",
+        "ms-azuretools.vscode-docker"
       ]
     }
   },

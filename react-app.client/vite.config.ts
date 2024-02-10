@@ -5,7 +5,50 @@ import plugin from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
 import child_process from "child_process";
-const baseFolder =
+
+const serverConfig = defineConfig({
+  plugins: [plugin()],
+  resolve: {
+    alias: {
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
+    },
+  },
+  server: {
+    proxy: {
+      "^/weatherforecast": {
+        target: "https://localhost:7255/",
+        secure: false,
+      },
+    },
+    strictPort: true,
+    port: 5173
+  },
+});
+
+const urls : string = process.env.ASPNETCORE_URLS;
+if(urls.indexOf('https') > -1) {
+  console.warn(`https url found in ${urls}, attempting vite with SSL!`);
+  try{
+    const sslSettings = createSslSettings();
+    defineConfig.server.https = sslSettings;
+  }
+  catch (ex) {
+    console.error(ex);
+    process.exit(-1);
+  }
+
+}
+
+// https://vitejs.dev/config/
+export default serverConfig;
+
+
+/**
+ * Function to create SSL settings based on the ASPNETCORE developer cert (usefull for development on a local machine)
+ * @returns ssl settings
+ */
+function createSslSettings(){
+  const baseFolder =
   process.env.APPDATA !== undefined && process.env.APPDATA !== ""
     ? `${process.env.APPDATA}/ASP.NET/https`
     : `${process.env.HOME}/.aspnet/https`;
@@ -19,10 +62,9 @@ const certificateName = certificateArg
   : "react-app.client";
 
 if (!certificateName) {
-  console.error(
+  throw new Error(
     "Invalid certificate name. Run this script in the context of an npm/yarn script or pass --name=<<app>> explicitly."
   );
-  process.exit(-1);
 }
 
 const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
@@ -55,24 +97,5 @@ const https = fs.existsSync(pfx)
       key: fs.readFileSync(keyFilePath),
       cert: fs.readFileSync(certFilePath),
     };
-
-// https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [plugin()],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-  },
-  server: {
-    proxy: {
-      "^/weatherforecast": {
-        target: "https://localhost:7255/",
-        secure: false,
-      },
-    },
-    strictPort: true,
-    port: 5173,
-    https: https,
-  },
-});
+  return https;
+}
