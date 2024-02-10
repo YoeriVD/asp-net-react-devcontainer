@@ -5,6 +5,8 @@ import plugin from "@vitejs/plugin-react";
 import fs from "fs";
 import path from "path";
 import child_process from "child_process";
+const urls : string = process.env.ASPNETCORE_URLS;
+const sslEnabled = urls.indexOf('https') > -1;
 
 const serverConfig = defineConfig({
   plugins: [plugin()],
@@ -16,7 +18,7 @@ const serverConfig = defineConfig({
   server: {
     proxy: {
       "^/weatherforecast": {
-        target: "https://localhost:7255/",
+        target: sslEnabled ? "https://localhost:7255/" : "http://localhost:5144",
         secure: false,
       },
     },
@@ -25,8 +27,7 @@ const serverConfig = defineConfig({
   },
 });
 
-const urls : string = process.env.ASPNETCORE_URLS;
-if(urls.indexOf('https') > -1) {
+if(sslEnabled) {
   console.warn(`https url found in ${urls}, attempting vite with SSL!`);
   try{
     const sslSettings = createSslSettings();
