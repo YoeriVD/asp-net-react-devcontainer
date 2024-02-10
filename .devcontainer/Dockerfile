@@ -12,5 +12,4 @@ RUN bash ./installSQLtools.sh \
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g git-removed-branches" 2>&1
 
-RUN dotnet workload update
 RUN . ${NVM_DIR}/nvm.sh && nvm install --lts && nvm use --lts
