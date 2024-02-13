@@ -1,15 +1,15 @@
 # Ignore .NET build artifacts
-bin/
-obj/
+**/bin/
+**/obj/
 
 # Ignore NuGet packages
 *.nupkg
 
 # Ignore Visual Studio files
-.vs/
+**/.vs/
 
 # Ignore Node.js files
-node_modules/
+**/node_modules/
 
 # Ignore Docker files
 .dockerignore
