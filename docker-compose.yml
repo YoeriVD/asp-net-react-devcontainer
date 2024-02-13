@@ -6,7 +6,10 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ../..:/workspaces:cached
+      - ./..:/workspaces:cached
+      - /workspaces/react-app.client/node_modules
+      - /workspaces/react-app.Server/bin
+      - /workspaces/react-app.Server/obj
       - ~/.aspnet/https:/https:ro
 
     # Overrides default command so things don't shut down after the process ends.

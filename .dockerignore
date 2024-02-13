@@ -1,0 +1,17 @@
+# Ignore .NET build artifacts
+bin/
+obj/
+
+# Ignore NuGet packages
+*.nupkg
+
+# Ignore Visual Studio files
+.vs/
+
+# Ignore Node.js files
+node_modules/
+
+# Ignore Docker files
+.dockerignore
+Dockerfile
+docker-compose.yml
