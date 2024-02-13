@@ -14,7 +14,7 @@ ARG NODE_VERSION="--lts"
 RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/local/share/nvm/nvm.sh && nvm install ${NODE_VERSION} 2>&1"; fi
 
 # Install dotnet tools
-# RUN dotnet tool install -g dotnet-ef
+RUN dotnet tool install -g dotnet-ef
 ENV PATH $PATH:/root/.dotnet/tools
 
 # Install packages so they are cached
