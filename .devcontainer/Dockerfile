@@ -16,3 +16,10 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 # Install dotnet tools
 # RUN dotnet tool install -g dotnet-ef
 ENV PATH $PATH:/root/.dotnet/tools
+
+
+# COPY react-app.client/package*.json /workspaces/asp-net-react-devcontainerreact-app.client/
+# RUN cd /workspaces/asp-net-react-devcontainerreact-app.client && npm ci && popd
+
+# COPY react-app.Server/react-app.Server.csproj /workspaces/asp-net-react-devcontainerreact-app.Server/
+# RUN cd /workspaces/asp-net-react-devcontainerreact-app.Server && dotnet restore && popd
