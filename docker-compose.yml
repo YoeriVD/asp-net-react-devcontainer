@@ -27,7 +27,7 @@ services:
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
     restart: unless-stopped
-    platform: linux/amd64
+    # platform: linux/amd64 (might be neede for ARM devices)
     environment:
       SA_PASSWORD: P@ssw0rd
       ACCEPT_EULA: Y
