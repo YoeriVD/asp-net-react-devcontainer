@@ -23,5 +23,4 @@ COPY react-app.client/package*.json /workspaces/asp-net-react-devcontainer/react
 RUN cd /workspaces/asp-net-react-devcontainer/react-app.client && npm ci
 
 COPY react-app.Server/react-app.Server.csproj /workspaces/asp-net-react-devcontainer/react-app.Server/
-# 3 times restore hack to solve issue "It might have been deleted since NuGet restore. Otherwise, NuGet restore might have only partially completed."
-RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server && dotnet restore && dotnet restore && dotnet restore
+RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server && dotnet restore
