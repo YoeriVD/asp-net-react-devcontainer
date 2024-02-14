@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 import child_process from "child_process";
 const urls: string = process.env.ASPNETCORE_URLS;
-const sslEnabled = urls.indexOf("https") > -1;
+const sslEnabled = urls?.indexOf("https") > -1;
 
 const serverConfig = defineConfig({
   plugins: [plugin()],

@@ -10,6 +10,7 @@
 
 # Ignore Node.js files
 **/node_modules/
+**/dist/
 
 # Ignore Docker files
 .dockerignore
