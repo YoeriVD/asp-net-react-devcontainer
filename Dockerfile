@@ -23,5 +23,5 @@ COPY react-app.client/package*.json /workspaces/asp-net-react-devcontainer/react
 RUN cd /workspaces/asp-net-react-devcontainer/react-app.client && npm ci
 
 COPY react-app.Server/react-app.Server.csproj /workspaces/asp-net-react-devcontainer/react-app.Server/
-COPY react-app.Client/react-app.Client.esproj /workspaces/asp-net-react-devcontainer/react-app.Client/
+COPY react-app.client/react-app.client.esproj /workspaces/asp-net-react-devcontainer/react-app.client/
 RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server && dotnet restore
