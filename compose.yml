@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: base
     volumes:
       - ./..:/workspaces:cached
       - /workspaces/react-app.client/node_modules
