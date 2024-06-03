@@ -35,7 +35,8 @@
         "ms-mssql.mssql",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode",
-        "aliasadidev.nugetpackagemanagergui"
+        "aliasadidev.nugetpackagemanagergui",
+        "ms-dotnettools.csdevkit"
       ]
     }
   },
