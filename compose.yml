@@ -11,6 +11,7 @@ services:
       - /workspaces/react-app.Server/bin
       - /workspaces/react-app.Server/obj
       - ~/.aspnet/https:/https:ro
+      - ~/.ssh:/home/vscode/.ssh:ro
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity
