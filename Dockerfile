@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm
+FROM mcr.microsoft.com/devcontainers/dotnet:1-8.0-bookworm as base
 
 # Install SQL Tools: SQLPackage and sqlcmd
 COPY .devcontainer/mssql/installSQLtools.sh installSQLtools.sh
@@ -17,6 +17,7 @@ RUN if [ "${NODE_VERSION}" != "none" ]; then su vscode -c "umask 0002 && . /usr/
 RUN dotnet tool install -g dotnet-ef
 ENV PATH $PATH:/root/.dotnet/tools
 
+FROM base as build
 # Install packages so they are cached
 
 COPY react-app.client/package*.json /workspaces/asp-net-react-devcontainer/react-app.client/
@@ -25,3 +26,5 @@ RUN cd /workspaces/asp-net-react-devcontainer/react-app.client && npm ci
 COPY react-app.Server/react-app.Server.csproj /workspaces/asp-net-react-devcontainer/react-app.Server/
 COPY react-app.client/react-app.client.esproj /workspaces/asp-net-react-devcontainer/react-app.client/
 RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server && dotnet restore
+
+RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server/ && dotnet publish -c Release --no-restore -o /app/publish
