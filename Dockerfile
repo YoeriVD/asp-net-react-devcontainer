@@ -27,4 +27,6 @@ COPY react-app.Server/react-app.Server.csproj /workspaces/asp-net-react-devconta
 COPY react-app.client/react-app.client.esproj /workspaces/asp-net-react-devcontainer/react-app.client/
 RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server && dotnet restore
 
+COPY . .
+
 RUN cd /workspaces/asp-net-react-devcontainer/react-app.Server/ && dotnet publish -c Release --no-restore -o /app/publish
