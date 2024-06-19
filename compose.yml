@@ -9,7 +9,7 @@ services:
       - /workspaces/react-app.client/node_modules
       - /workspaces/react-app.Server/bin
       - /workspaces/react-app.Server/obj
-      - ~/.aspnet/https:/https:ro
+      - ~/.aspnet/https:/https
       - ~/.ssh:/home/vscode/.ssh:ro
 
     # Overrides default command so things don't shut down after the process ends.
