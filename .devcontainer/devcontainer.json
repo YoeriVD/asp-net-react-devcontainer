@@ -17,7 +17,7 @@
       "settings": {
         "mssql.connections": [
           {
-            "server": "localhost,1433",
+            "server": "db,1433",
             "database": "ApplicationDB",
             "authenticationType": "SqlLogin",
             "user": "sa",
