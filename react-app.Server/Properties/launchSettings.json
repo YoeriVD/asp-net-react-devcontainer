@@ -19,7 +19,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.SpaProxy",
         "ASPNETCORE_Kestrel__Certificates__Default__Password": "",
-        "ASPNETCORE_Kestrel__Certificates__Default__Path": "",
+        "ASPNETCORE_Kestrel__Certificates__Default__Path": ""
       }
     },
     "https": {
