@@ -8,7 +8,7 @@ sqlpath=$3
 echo "SELECT * FROM SYS.DATABASES" | dd of=testsqlconnection.sql
 for i in {1..60};
 do
-    /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P $SApassword -d master -i testsqlconnection.sql > /dev/null
+    /opt/mssql-tools18/bin/sqlcmd -C -S db -U sa -P $SApassword -d master -i testsqlconnection.sql > /dev/null
     if [ $? -eq 0 ]
     then
         echo "SQL server ready"
@@ -45,7 +45,7 @@ then
         if [ $f == $sqlpath/*".sql" ]
         then
             echo "Executing $f"
-            /opt/mssql-tools18/bin/sqlcmd -C -S localhost -U sa -P $SApassword -d master -i $f
+            /opt/mssql-tools18/bin/sqlcmd -C -S db -U sa -P $SApassword -d master -i $f
         fi
     done
 fi
@@ -58,7 +58,7 @@ then
         then
             dbname=$(basename $f ".dacpac")
             echo "Deploying dacpac $f"
-            /opt/sqlpackage/sqlpackage /Action:Publish /SourceFile:$f /TargetServerName:localhost /TargetDatabaseName:$dbname /TargetUser:sa /TargetPassword:$SApassword
+            /opt/sqlpackage/sqlpackage /Action:Publish /SourceFile:$f /TargetServerName:db /TargetDatabaseName:$dbname /TargetUser:sa /TargetPassword:$SApassword
         fi
     done
 fi
