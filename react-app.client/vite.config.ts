@@ -57,11 +57,12 @@ export default serverConfig;
  * @returns ssl settings
  */
 function createSslSettings() {
+
   const baseFolder =
     process.env.APPDATA !== undefined && process.env.APPDATA !== ""
       ? `${process.env.APPDATA}/ASP.NET/https`
-      : `${process.env.HOME}/.aspnet/https`;
-  const pfx = "/https/react-app.pfx";
+      : process.env.ASPNETCORE_Kestrel__Certificates__Default__Path !== undefined ? "/https" : `${process.env.HOME}/.aspnet/https`;
+  const pfx = path.join(baseFolder, "react-app.pfx");
 
   const certificateArg = process.argv
     .map((arg) => arg.match(/--name=(?<value>.+)/i))
@@ -78,6 +79,8 @@ function createSslSettings() {
 
   const certFilePath = path.join(baseFolder, `${certificateName}.pem`);
   const keyFilePath = path.join(baseFolder, `${certificateName}.key`);
+  console.log(`Certificate path: ${certFilePath}`);
+  console.log(`Key path: ${keyFilePath}`);
 
   if (!fs.existsSync(certFilePath) || !fs.existsSync(keyFilePath)) {
     if (
