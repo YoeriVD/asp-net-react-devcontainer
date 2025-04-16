@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             "launchSettingsProfile": "https",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/react-app.Server/bin/Debug/net8.0/react-app.Server.dll",
+            "program": "${workspaceFolder}/react-app.Server/bin/Debug/net9.0/react-app.Server.dll",
             "args": [],
             "cwd": "${workspaceFolder}/react-app.Server",
             "stopAtEntry": false,
@@ -37,7 +37,7 @@
             "preLaunchTask": "build",
             "launchSettingsProfile": "http",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/react-app.Server/bin/Debug/net8.0/react-app.Server.dll",
+            "program": "${workspaceFolder}/react-app.Server/bin/Debug/net9.0/react-app.Server.dll",
             "args": [],
             "cwd": "${workspaceFolder}/react-app.Server",
             "stopAtEntry": false,
