@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="9.0.5" />
   </ItemGroup>
 
   <ItemGroup>
