@@ -70,4 +70,6 @@ This means your custom Fish functions, aliases, and Starship prompt styling will
 
 > **Note**: The configurations are mounted as read-only to prevent accidental modifications from within the container.
 
+> **Note**: If you don't have Fish or Starship configured on your host system, Docker may create empty directories. This won't cause any issues - Fish and Starship will use their default configurations. If you prefer, you can comment out the volume mounts for `~/.config/fish` and `~/.config/starship.toml` in `.devcontainer/compose.yml`.
+
 > ⚠️ **Security Note**: The default password `P@ssw0rd` is intended for local development only. Never use this password or these credentials in production or any non-development environment.
