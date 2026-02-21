@@ -9,8 +9,8 @@ if ! command -v sqlcmd &> /dev/null && [ ! -f /opt/mssql-tools18/bin/sqlcmd ] &&
     sudo apt-get update
     sudo apt-get install -y curl apt-transport-https gnupg lsb-release
     
-    # Import the Microsoft repository GPG key
-    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+    # Import the Microsoft repository GPG key (dearmored for modern apt)
+    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
     
     # Add the Microsoft SQL Server repository
     UBUNTU_VERSION=$(lsb_release -rs)
@@ -23,9 +23,14 @@ if ! command -v sqlcmd &> /dev/null && [ ! -f /opt/mssql-tools18/bin/sqlcmd ] &&
     # Install mssql-tools18 (latest version with encryption support)
     ACCEPT_EULA=Y sudo apt-get install -y mssql-tools18 unixodbc-dev
     
-    # Add mssql-tools to PATH permanently
-    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
-    export PATH="$PATH:/opt/mssql-tools18/bin"
+    # Add mssql-tools to PATH permanently (check which version was installed)
+    if [ -d /opt/mssql-tools18/bin ]; then
+        echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+        export PATH="$PATH:/opt/mssql-tools18/bin"
+    elif [ -d /opt/mssql-tools/bin ]; then
+        echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+        export PATH="$PATH:/opt/mssql-tools/bin"
+    fi
     
     echo "mssql-tools installed successfully!"
 else
