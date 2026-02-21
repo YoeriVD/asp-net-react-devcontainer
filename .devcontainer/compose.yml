@@ -14,16 +14,17 @@ services:
       - db
 
   db:
-    image: mcr.microsoft.com/mssql/server:2022-latest
-    platform: linux/amd64  # Required for SQL Server on ARM hosts (runs under emulation)
+    image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      SA_PASSWORD: "P@ssw0rd"
-      ACCEPT_EULA: "Y"
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: P@ssw0rd
+      POSTGRES_DB: ApplicationDB
     ports:
-      - "1433:1433"
+      - "5432:5432"
     volumes:
-      - mssql-data:/var/opt/mssql
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres:/docker-entrypoint-initdb.d
     networks:
       - app-network
 
@@ -35,4 +36,4 @@ volumes:
   vscode-node-modules:
   vscode-bin:
   vscode-obj:
-  mssql-data:
+  postgres-data:
