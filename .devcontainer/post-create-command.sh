@@ -32,7 +32,6 @@ sudo chown -R vscode react-app.Server/obj 2>/dev/null || true
 
 echo "Installing Fish shell..."
 # Install Fish shell if not already installed
-FISH_PATH=""
 if ! command -v fish &> /dev/null; then
     echo "Fish not found, installing..."
     if ! sudo apt-get update -qq; then
