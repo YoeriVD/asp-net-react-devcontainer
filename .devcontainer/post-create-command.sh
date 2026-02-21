@@ -35,12 +35,12 @@ echo "Installing Fish shell..."
 if ! command -v fish &> /dev/null; then
     echo "Fish not found, installing..."
     if ! sudo apt-get update -qq; then
-        echo "Error: Failed to update package lists. Skipping Fish installation."
+        echo "Warning: Failed to update package lists. Container setup will continue without Fish shell."
         echo "Setup complete!"
         exit 0
     fi
     if ! sudo apt-get install -y fish; then
-        echo "Error: Failed to install Fish package. Skipping shell configuration."
+        echo "Warning: Failed to install Fish package. Container setup will continue without Fish shell."
         echo "Setup complete!"
         exit 0
     fi
