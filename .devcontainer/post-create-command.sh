@@ -39,6 +39,9 @@ if [ -n "$FISH_PATH" ]; then
     if [ $? -ne 0 ]; then
         echo "Warning: Failed to change default shell to Fish. You may need to add $FISH_PATH to /etc/shells or run 'chsh -s \"$FISH_PATH\"' manually."
     fi
+    if [ $? -ne 0 ]; then
+        echo "Warning: Failed to change default shell to Fish. You may need to add $FISH_PATH to /etc/shells or run 'chsh -s \"$FISH_PATH\"' manually."
+    fi
 else
     echo "Warning: Fish shell not found. Skipping default shell configuration."
 fi
