@@ -34,8 +34,13 @@ echo "Installing Fish shell..."
 # Install Fish shell if not already installed
 if ! command -v fish &> /dev/null; then
     echo "Fish not found, installing..."
-    sudo apt-get update -qq
-    sudo apt-get install -y fish
+    if sudo apt-get update -qq && sudo apt-get install -y fish; then
+        echo "Fish installed successfully"
+    else
+        echo "Error: Failed to install Fish. Skipping shell configuration."
+        echo "Setup complete!"
+        exit 0
+    fi
 else
     echo "Fish is already installed"
 fi
@@ -48,9 +53,10 @@ if [ -n "$FISH_PATH" ]; then
     # Add Fish to /etc/shells if not already there
     if ! grep -q "$FISH_PATH" /etc/shells; then
         echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
+        echo "Added Fish to /etc/shells"
     fi
     if ! sudo chsh -s "$FISH_PATH" vscode; then
-        echo "Warning: Failed to change default shell to Fish. The shell has been added to /etc/shells. You may need to run 'chsh -s \"$FISH_PATH\"' manually or check permissions."
+        echo "Warning: Failed to change default shell to Fish. Fish is in /etc/shells. You may need to run 'chsh -s \"$FISH_PATH\"' manually or check permissions."
     fi
 else
     echo "Warning: Fish shell not found. Skipping default shell configuration."
