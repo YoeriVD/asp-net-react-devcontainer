@@ -1,0 +1,42 @@
+name: DevContainer CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v6
+    
+    - name: Build and run Dev Container task
+      uses: devcontainers/ci@v0.3
+      with:
+        runCmd: |
+          # Verify Node.js is installed
+          node --version
+          npm --version
+          
+          # Verify .NET is installed
+          dotnet --version
+          
+          # Verify sqlcmd is available
+          which sqlcmd || echo "sqlcmd not in PATH, checking common locations..."
+          if [ -f /opt/mssql-tools18/bin/sqlcmd ]; then
+            echo "sqlcmd found at /opt/mssql-tools18/bin/sqlcmd"
+          elif [ -f /opt/mssql-tools/bin/sqlcmd ]; then
+            echo "sqlcmd found at /opt/mssql-tools/bin/sqlcmd"
+          fi
+          
+          # Verify project structure
+          ls -la
+          
+          # Test .NET restore
+          dotnet restore
+          
+          # Test npm install
+          cd react-app.client && npm install
