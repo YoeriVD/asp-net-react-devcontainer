@@ -10,12 +10,12 @@ if ! command -v sqlcmd &> /dev/null && [ ! -f /opt/mssql-tools18/bin/sqlcmd ] &&
     sudo apt-get install -y curl apt-transport-https gnupg lsb-release
     
     # Import the Microsoft repository GPG key (dearmored for modern apt)
-    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
+    curl -sSL --proto '=https' --tlsv1.2 https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null
     
     # Add the Microsoft SQL Server repository
     UBUNTU_VERSION=$(lsb_release -rs)
-    curl -sSL "https://packages.microsoft.com/config/ubuntu/${UBUNTU_VERSION}/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list || \
-    curl -sSL "https://packages.microsoft.com/config/ubuntu/22.04/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list
+    curl -sSL --proto '=https' --tlsv1.2 "https://packages.microsoft.com/config/ubuntu/${UBUNTU_VERSION}/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list || \
+    curl -sSL --proto '=https' --tlsv1.2 "https://packages.microsoft.com/config/ubuntu/22.04/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list
     
     # Update package lists
     sudo apt-get update
