@@ -44,57 +44,39 @@ else
     echo "Starship is already installed"
 fi
 
-echo "Installing Fish shell..."
-# Install Fish shell if not already installed
-SKIP_FISH=false
-if ! command -v fish &> /dev/null; then
-    echo "Fish not found, installing..."
-    if ! sudo apt-get update -qq; then
-        echo "Warning: Failed to update package lists. Skipping Fish installation."
-        SKIP_FISH=true
-    elif ! sudo apt-get install -y fish; then
-        echo "Warning: Failed to install Fish package. Skipping Fish configuration."
-        SKIP_FISH=true
-    else
-        echo "Fish installed successfully"
-    fi
-fi
-
-if [ "$SKIP_FISH" = false ]; then
-    # Get Fish path for shell configuration
-    FISH_PATH=$(command -v fish 2>/dev/null || true)
-    if [ -z "$FISH_PATH" ]; then
-        echo "Warning: Fish shell not found after installation. Skipping default shell configuration."
-    else
-        echo "Fish found at $FISH_PATH"
-        
-        # Initialize Starship for Fish if both are installed
-        if command -v starship &> /dev/null; then
-            echo "Configuring Starship for Fish..."
-            # Create a local config file for Starship (separate from host-mounted config)
-            mkdir -p /home/vscode/.config/fish/conf.d
-            if [ ! -f /home/vscode/.config/fish/conf.d/starship.fish ]; then
-                echo "starship init fish | source" > /home/vscode/.config/fish/conf.d/starship.fish
-                if chown vscode:vscode /home/vscode/.config/fish/conf.d/starship.fish 2>/dev/null; then
-                    echo "Added Starship initialization to Fish conf.d"
-                else
-                    echo "Warning: Created Starship config but failed to set ownership. File may have incorrect permissions."
-                fi
+# Configure Fish shell (should be installed by devcontainer feature)
+FISH_PATH=$(command -v fish 2>/dev/null || true)
+if [ -n "$FISH_PATH" ]; then
+    echo "Fish found at $FISH_PATH"
+    
+    # Initialize Starship for Fish if both are installed
+    if command -v starship &> /dev/null; then
+        echo "Configuring Starship for Fish..."
+        # Create a local config file for Starship (separate from host-mounted config)
+        mkdir -p /home/vscode/.config/fish/conf.d
+        if [ ! -f /home/vscode/.config/fish/conf.d/starship.fish ]; then
+            echo "starship init fish | source" > /home/vscode/.config/fish/conf.d/starship.fish
+            if chown vscode:vscode /home/vscode/.config/fish/conf.d/starship.fish 2>/dev/null; then
+                echo "Added Starship initialization to Fish conf.d"
+            else
+                echo "Warning: Created Starship config but failed to set ownership. File may have incorrect permissions."
             fi
         fi
-        
-        echo "Setting Fish as default shell..."
-        # Add Fish to /etc/shells if not already there
-        if ! grep -q "$FISH_PATH" /etc/shells; then
-            echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
-            echo "Added Fish to /etc/shells"
-        fi
-        if ! sudo chsh -s "$FISH_PATH" vscode; then
-            echo "Warning: Failed to change default shell to Fish. Fish is in /etc/shells. You may need to run 'chsh -s \"$FISH_PATH\"' manually or check permissions."
-        else
-            echo "Successfully set Fish as default shell for vscode user"
-        fi
     fi
+    
+    echo "Setting Fish as default shell..."
+    # Add Fish to /etc/shells if not already there
+    if ! grep -q "$FISH_PATH" /etc/shells; then
+        echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
+        echo "Added Fish to /etc/shells"
+    fi
+    if ! sudo chsh -s "$FISH_PATH" vscode; then
+        echo "Warning: Failed to change default shell to Fish. Fish is in /etc/shells. You may need to run 'chsh -s \"$FISH_PATH\"' manually or check permissions."
+    else
+        echo "Successfully set Fish as default shell for vscode user"
+    fi
+else
+    echo "Warning: Fish shell not found. Skipping Fish configuration."
 fi
 
 echo "Setup complete!"

@@ -12,7 +12,7 @@ A development container setup for ASP.NET Core 9.0 backend with React frontend a
 - **Fish Shell with Starship Prompt** - Modern terminal experience with host config sharing
 - **DevContainer Features** - No custom Dockerfile needed
   - Node.js LTS (via devcontainer feature)
-  - Fish shell (installed via apt)
+  - Fish shell (via devcontainer feature)
   - Starship prompt (installed via official install script)
 
 ## Getting Started
