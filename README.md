@@ -15,10 +15,13 @@ A development container setup for ASP.NET Core 9.0 backend with React frontend a
 
 ## Getting Started
 
-1. Open this repository in VS Code
-2. When prompted, click "Reopen in Container"
-3. Wait for the container to build and initialize
-4. The database will be created automatically on first run
+1. Clone this repository (keep the default name `asp-net-react-devcontainer`)
+2. Open this repository in VS Code
+3. When prompted, click "Reopen in Container"
+4. Wait for the container to build and initialize
+5. The database will be created automatically on first run
+
+> **Note**: If you clone the repository with a different name, you'll need to update the volume paths in `.devcontainer/compose.yml` to match your repository folder name.
 
 ## What's Included
 
