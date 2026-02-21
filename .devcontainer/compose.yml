@@ -7,6 +7,8 @@ services:
       - vscode-bin:/workspaces/asp-net-react-devcontainer/react-app.Server/bin
       - vscode-obj:/workspaces/asp-net-react-devcontainer/react-app.Server/obj
       - ~/.ssh:/home/vscode/.ssh:ro
+      - ~/.config/fish:/home/vscode/.config/fish:ro
+      - ~/.config/starship.toml:/home/vscode/.config/starship.toml:ro
     command: sleep infinity
     networks:
       - app-network

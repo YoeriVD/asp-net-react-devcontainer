@@ -7,12 +7,21 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
-    }
+    },
+    "ghcr.io/devcontainers/features/fish:1": {},
+    "ghcr.io/meaningful-ooo/devcontainer-features/starship:1": {}
   },
 
   "customizations": {
     "vscode": {
-      "settings": {},
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "fish",
+        "terminal.integrated.profiles.linux": {
+          "fish": {
+            "path": "/usr/bin/fish"
+          }
+        }
+      },
       "extensions": [
         "ms-dotnettools.csdevkit",
         "cweijan.vscode-postgresql-client2",

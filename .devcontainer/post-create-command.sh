@@ -30,4 +30,7 @@ sudo chown -R vscode react-app.client/node_modules 2>/dev/null || true
 sudo chown -R vscode react-app.Server/bin 2>/dev/null || true
 sudo chown -R vscode react-app.Server/obj 2>/dev/null || true
 
+echo "Setting Fish as default shell..."
+sudo chsh -s /usr/bin/fish vscode
+
 echo "Setup complete!"
