@@ -50,7 +50,6 @@ The devcontainer will automatically:
 - Install Fish shell and Starship prompt
 - Set Fish as the default shell
 - Mount your host Fish configuration (`~/.config/fish`)
-- Mount your host Starship configuration (`~/.config/starship.toml`)
 - Restore .NET packages
 - Install npm packages
 - Initialize the PostgreSQL database
@@ -62,14 +61,13 @@ ConnectionStrings__DefaultConnection=Host=db;Database=ApplicationDB;Username=pos
 
 ### Shell Configuration
 
-The devcontainer automatically shares your host's Fish and Starship configurations:
+The devcontainer automatically shares your host's Fish configuration:
 - **Fish config**: `~/.config/fish` on your host is mounted to `/home/vscode/.config/fish` in the container (read-only)
-- **Starship config**: `~/.config/starship.toml` on your host is mounted to `/home/vscode/.config/starship.toml` in the container (read-only)
 
-This means your custom Fish functions, aliases, and Starship prompt styling will be available in the container without any additional setup.
+This means your custom Fish functions, aliases, and other Fish configurations will be available in the container without any additional setup. Starship is installed and will use its default configuration.
 
-> **Note**: The configurations are mounted as read-only to prevent accidental modifications from within the container.
+> **Note**: The Fish configuration is mounted as read-only to prevent accidental modifications from within the container.
 
-> **Note**: If you don't have Fish or Starship configured on your host system, Docker may create empty directories. This won't cause any issues - Fish and Starship will use their default configurations. If you prefer, you can comment out the volume mounts for `~/.config/fish` and `~/.config/starship.toml` in `.devcontainer/compose.yml`.
+> **Note**: If you don't have a Fish configuration on your host system, Docker may create an empty `~/.config/fish` directory. This is safe — Fish will fall back to its default configuration inside the container. If you prefer, you can comment out the volume mount for `~/.config/fish` in `.devcontainer/compose.yml`.
 
 > ⚠️ **Security Note**: The default password `P@ssw0rd` is intended for local development only. Never use this password or these credentials in production or any non-development environment.
