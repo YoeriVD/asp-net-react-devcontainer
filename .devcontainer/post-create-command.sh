@@ -75,8 +75,11 @@ if [ "$SKIP_FISH" = false ]; then
             mkdir -p /home/vscode/.config/fish/conf.d
             if [ ! -f /home/vscode/.config/fish/conf.d/starship.fish ]; then
                 echo "starship init fish | source" > /home/vscode/.config/fish/conf.d/starship.fish
-                chown vscode:vscode /home/vscode/.config/fish/conf.d/starship.fish
-                echo "Added Starship initialization to Fish conf.d"
+                if chown vscode:vscode /home/vscode/.config/fish/conf.d/starship.fish 2>/dev/null; then
+                    echo "Added Starship initialization to Fish conf.d"
+                else
+                    echo "Warning: Created Starship config but failed to set ownership. File may have incorrect permissions."
+                fi
             fi
         fi
         
