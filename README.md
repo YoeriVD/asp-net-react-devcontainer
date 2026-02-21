@@ -46,3 +46,5 @@ Connection string is available in the environment:
 ```
 ConnectionStrings__DefaultConnection=Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd;TrustServerCertificate=True
 ```
+
+> ⚠️ **Security Note**: The default password `P@ssw0rd` is intended for local development only. Never use this password or these credentials in production or any non-development environment.

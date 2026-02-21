@@ -1,7 +1,9 @@
 #!/bin/bash
 
+# Wait for SQL Server to be ready (max 3 minutes)
+MAX_RETRIES=90
 echo "Waiting for SQL Server to be ready..."
-for i in {1..60}; do
+for i in $(seq 1 $MAX_RETRIES); do
     # Try different sqlcmd locations
     SQLCMD=""
     if command -v sqlcmd &> /dev/null; then
@@ -18,7 +20,7 @@ for i in {1..60}; do
             break
         fi
     fi
-    echo "Waiting for SQL Server... ($i/60)"
+    echo "Waiting for SQL Server... ($i/$MAX_RETRIES)"
     sleep 2
 done
 
