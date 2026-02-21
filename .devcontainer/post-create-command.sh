@@ -50,7 +50,7 @@ if [ -n "$FISH_PATH" ]; then
         echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
     fi
     if ! sudo chsh -s "$FISH_PATH" vscode; then
-        echo "Warning: Failed to change default shell to Fish. You may need to add $FISH_PATH to /etc/shells or run 'chsh -s \"$FISH_PATH\"' manually."
+        echo "Warning: Failed to change default shell to Fish. The shell has been added to /etc/shells. You may need to run 'chsh -s \"$FISH_PATH\"' manually or check permissions."
     fi
 else
     echo "Warning: Fish shell not found. Skipping default shell configuration."
