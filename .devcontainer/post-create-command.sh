@@ -30,6 +30,19 @@ sudo chown -R vscode react-app.client/node_modules 2>/dev/null || true
 sudo chown -R vscode react-app.Server/bin 2>/dev/null || true
 sudo chown -R vscode react-app.Server/obj 2>/dev/null || true
 
+echo "Installing Starship prompt..."
+# Install Starship if not already installed
+if ! command -v starship &> /dev/null; then
+    echo "Starship not found, installing..."
+    if curl -sS https://starship.rs/install.sh | sh -s -- -y > /dev/null 2>&1; then
+        echo "Starship installed successfully"
+    else
+        echo "Warning: Failed to install Starship. Continuing without Starship prompt."
+    fi
+else
+    echo "Starship is already installed"
+fi
+
 echo "Installing Fish shell..."
 # Install Fish shell if not already installed
 SKIP_FISH=false
@@ -53,6 +66,17 @@ if [ "$SKIP_FISH" = false ]; then
         echo "Warning: Fish shell not found after installation. Skipping default shell configuration."
     else
         echo "Fish found at $FISH_PATH"
+        
+        # Initialize Starship for Fish if both are installed
+        if command -v starship &> /dev/null; then
+            echo "Configuring Starship for Fish..."
+            mkdir -p /home/vscode/.config/fish
+            if ! grep -q "starship init fish" /home/vscode/.config/fish/config.fish 2>/dev/null; then
+                echo "starship init fish | source" >> /home/vscode/.config/fish/config.fish
+                echo "Added Starship initialization to Fish config"
+            fi
+        fi
+        
         echo "Setting Fish as default shell..."
         # Add Fish to /etc/shells if not already there
         if ! grep -q "$FISH_PATH" /etc/shells; then

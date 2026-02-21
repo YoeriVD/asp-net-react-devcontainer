@@ -7,8 +7,7 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
-    },
-    "ghcr.io/meaningful-ooo/devcontainer-features/starship:1": {}
+    }
   },
 
   "customizations": {
