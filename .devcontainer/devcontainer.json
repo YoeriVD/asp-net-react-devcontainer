@@ -1,22 +1,47 @@
 {
-  "name": "ASP.NET Core with React",
-  "image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0",
+  "name": "ASP.NET Core with React + MSSQL",
+  "dockerComposeFile": "compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
 
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
-    }
+    },
+    "ghcr.io/devcontainers-contrib/features/mssql-tools:1": {}
   },
 
   "customizations": {
     "vscode": {
+      "settings": {
+        "mssql.connections": [
+          {
+            "server": "db,1433",
+            "database": "ApplicationDB",
+            "authenticationType": "SqlLogin",
+            "user": "sa",
+            "password": "P@ssw0rd",
+            "emptyPasswordInput": false,
+            "savePassword": true,
+            "profileName": "mssql-container",
+            "trustServerCertificate": true
+          }
+        ]
+      },
       "extensions": [
         "ms-dotnettools.csdevkit",
+        "ms-mssql.mssql",
         "editorconfig.editorconfig",
         "esbenp.prettier-vscode"
       ]
     }
   },
+
+  "remoteEnv": {
+    "ConnectionStrings__DefaultConnection": "Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd;TrustServerCertificate=True"
+  },
+
+  "forwardPorts": [1433, 5000, 5173],
 
   "postCreateCommand": "sh .devcontainer/post-create-command.sh"
 }
