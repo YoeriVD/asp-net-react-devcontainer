@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
     - uses: actions/checkout@v6
@@ -24,12 +26,13 @@ jobs:
           # Verify .NET is installed
           dotnet --version
           
-          # Verify sqlcmd is available
-          which sqlcmd || echo "sqlcmd not in PATH, checking common locations..."
-          if [ -f /opt/mssql-tools18/bin/sqlcmd ]; then
-            echo "sqlcmd found at /opt/mssql-tools18/bin/sqlcmd"
+          # Verify sqlcmd is available and functional
+          if command -v sqlcmd &> /dev/null; then
+            sqlcmd -? > /dev/null 2>&1 && echo "sqlcmd is functional in PATH"
+          elif [ -f /opt/mssql-tools18/bin/sqlcmd ]; then
+            /opt/mssql-tools18/bin/sqlcmd -? > /dev/null 2>&1 && echo "sqlcmd is functional at /opt/mssql-tools18/bin/sqlcmd"
           elif [ -f /opt/mssql-tools/bin/sqlcmd ]; then
-            echo "sqlcmd found at /opt/mssql-tools/bin/sqlcmd"
+            /opt/mssql-tools/bin/sqlcmd -? > /dev/null 2>&1 && echo "sqlcmd is functional at /opt/mssql-tools/bin/sqlcmd"
           fi
           
           # Verify project structure
