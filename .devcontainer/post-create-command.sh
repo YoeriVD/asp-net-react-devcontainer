@@ -35,8 +35,7 @@ echo "Setting Fish as default shell..."
 FISH_PATH=$(command -v fish 2>/dev/null || true)
 if [ -n "$FISH_PATH" ]; then
     echo "Fish found at $FISH_PATH, setting as default shell..."
-    sudo chsh -s "$FISH_PATH" vscode
-    if [ $? -ne 0 ]; then
+    if ! sudo chsh -s "$FISH_PATH" vscode; then
         echo "Warning: Failed to change default shell to Fish. You may need to add $FISH_PATH to /etc/shells or run 'chsh -s \"$FISH_PATH\"' manually."
     fi
     if [ $? -ne 0 ]; then
