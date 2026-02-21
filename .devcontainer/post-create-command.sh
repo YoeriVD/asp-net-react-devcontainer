@@ -43,8 +43,9 @@ echo "Installing npm packages..."
 npm --prefix react-app.client install
 
 echo "Setting permissions..."
-sudo chown -R vscode /workspaces/asp-net-react-devcontainer/react-app.client/node_modules 2>/dev/null || true
-sudo chown -R vscode /workspaces/asp-net-react-devcontainer/react-app.Server/bin 2>/dev/null || true
-sudo chown -R vscode /workspaces/asp-net-react-devcontainer/react-app.Server/obj 2>/dev/null || true
+sudo chown -R vscode node_modules 2>/dev/null || true
+sudo chown -R vscode react-app.client/node_modules 2>/dev/null || true
+sudo chown -R vscode react-app.Server/bin 2>/dev/null || true
+sudo chown -R vscode react-app.Server/obj 2>/dev/null || true
 
 echo "Setup complete!"
