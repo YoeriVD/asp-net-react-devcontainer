@@ -1,5 +1,37 @@
 #!/bin/bash
 
+# Install mssql-tools if not already installed
+echo "Checking for mssql-tools installation..."
+if ! command -v sqlcmd &> /dev/null && [ ! -f /opt/mssql-tools18/bin/sqlcmd ] && [ ! -f /opt/mssql-tools/bin/sqlcmd ]; then
+    echo "Installing mssql-tools..."
+    
+    # Install prerequisites
+    sudo apt-get update
+    sudo apt-get install -y curl apt-transport-https gnupg lsb-release
+    
+    # Import the Microsoft repository GPG key
+    curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+    
+    # Add the Microsoft SQL Server repository
+    UBUNTU_VERSION=$(lsb_release -rs)
+    curl -sSL "https://packages.microsoft.com/config/ubuntu/${UBUNTU_VERSION}/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list || \
+    curl -sSL "https://packages.microsoft.com/config/ubuntu/22.04/prod.list" | sudo tee /etc/apt/sources.list.d/mssql-release.list
+    
+    # Update package lists
+    sudo apt-get update
+    
+    # Install mssql-tools18 (latest version with encryption support)
+    ACCEPT_EULA=Y sudo apt-get install -y mssql-tools18 unixodbc-dev
+    
+    # Add mssql-tools to PATH permanently
+    echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+    export PATH="$PATH:/opt/mssql-tools18/bin"
+    
+    echo "mssql-tools installed successfully!"
+else
+    echo "mssql-tools already installed."
+fi
+
 # Detect sqlcmd location once before the retry loop
 SQLCMD=""
 if command -v sqlcmd &> /dev/null; then
