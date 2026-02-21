@@ -3,6 +3,10 @@ services:
     image: mcr.microsoft.com/devcontainers/dotnet:1-9.0
     volumes:
       - ../..:/workspaces:cached
+      - /workspaces/react-app.client/node_modules
+      - /workspaces/react-app.Server/bin
+      - /workspaces/react-app.Server/obj
+      - ~/.ssh:/home/vscode/.ssh:ro
     command: sleep infinity
     networks:
       - app-network
@@ -11,6 +15,7 @@ services:
 
   db:
     image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64  # Required for SQL Server on ARM hosts (runs under emulation)
     restart: unless-stopped
     environment:
       SA_PASSWORD: "P@ssw0rd"

@@ -8,7 +8,7 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     },
-    "ghcr.io/devcontainers-contrib/features/mssql-tools:1": {}
+    "ghcr.io/devcontainers-contrib/features/mssql-tools:1.0.0": {}
   },
 
   "customizations": {
@@ -38,7 +38,8 @@
   },
 
   "remoteEnv": {
-    "ConnectionStrings__DefaultConnection": "Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd;TrustServerCertificate=True"
+    "ConnectionStrings__DefaultConnection": "Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd;TrustServerCertificate=True",
+    "ASPNETCORE_URLS": "http://+:5000"
   },
 
   "forwardPorts": [1433, 5000, 5173],
