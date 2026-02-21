@@ -1,0 +1,38 @@
+services:
+  app:
+    image: mcr.microsoft.com/devcontainers/dotnet:1-9.0
+    volumes:
+      - ../..:/workspaces:cached
+      - vscode-node-modules:/workspaces/asp-net-react-devcontainer/react-app.client/node_modules
+      - vscode-bin:/workspaces/asp-net-react-devcontainer/react-app.Server/bin
+      - vscode-obj:/workspaces/asp-net-react-devcontainer/react-app.Server/obj
+      - ~/.ssh:/home/vscode/.ssh:ro
+    command: sleep infinity
+    networks:
+      - app-network
+    depends_on:
+      - db
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    platform: linux/amd64  # Required for SQL Server on ARM hosts (runs under emulation)
+    restart: unless-stopped
+    environment:
+      SA_PASSWORD: "P@ssw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql-data:/var/opt/mssql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  vscode-node-modules:
+  vscode-bin:
+  vscode-obj:
+  mssql-data:
