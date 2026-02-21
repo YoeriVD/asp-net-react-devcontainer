@@ -34,7 +34,8 @@ echo "Installing Starship prompt..."
 # Install Starship if not already installed
 if ! command -v starship &> /dev/null; then
     echo "Starship not found, installing..."
-    if curl -sS https://starship.rs/install.sh | sh -s -- -y > /dev/null 2>&1; then
+    # Download and verify the installation script executed successfully
+    if curl -sS https://starship.rs/install.sh | sh -s -- -y > /dev/null 2>&1 && command -v starship &> /dev/null; then
         echo "Starship installed successfully"
     else
         echo "Warning: Failed to install Starship. Continuing without Starship prompt."
@@ -70,10 +71,12 @@ if [ "$SKIP_FISH" = false ]; then
         # Initialize Starship for Fish if both are installed
         if command -v starship &> /dev/null; then
             echo "Configuring Starship for Fish..."
-            mkdir -p /home/vscode/.config/fish
-            if ! grep -q "starship init fish" /home/vscode/.config/fish/config.fish 2>/dev/null; then
-                echo "starship init fish | source" >> /home/vscode/.config/fish/config.fish
-                echo "Added Starship initialization to Fish config"
+            # Create a local config file for Starship (separate from host-mounted config)
+            mkdir -p /home/vscode/.config/fish/conf.d
+            if [ ! -f /home/vscode/.config/fish/conf.d/starship.fish ]; then
+                echo "starship init fish | source" > /home/vscode/.config/fish/conf.d/starship.fish
+                chown vscode:vscode /home/vscode/.config/fish/conf.d/starship.fish
+                echo "Added Starship initialization to Fish conf.d"
             fi
         fi
         
