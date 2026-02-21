@@ -32,7 +32,7 @@ sudo chown -R vscode react-app.Server/obj 2>/dev/null || true
 
 echo "Setting Fish as default shell..."
 # Find Fish shell path and set as default if it exists
-FISH_PATH=$(which fish 2>/dev/null)
+FISH_PATH=$(command -v fish 2>/dev/null || true)
 if [ -n "$FISH_PATH" ]; then
     echo "Fish found at $FISH_PATH, setting as default shell..."
     sudo chsh -s "$FISH_PATH" vscode
