@@ -7,8 +7,6 @@ services:
       - vscode-bin:/workspaces/asp-net-react-devcontainer/react-app.Server/bin
       - vscode-obj:/workspaces/asp-net-react-devcontainer/react-app.Server/obj
       - ~/.ssh:/home/vscode/.ssh:ro
-      # Mount Fish config from host (optional - can be commented out if not needed)
-      - ~/.config/fish:/home/vscode/.config/fish:ro
     command: sleep infinity
     networks:
       - app-network
