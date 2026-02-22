@@ -30,4 +30,53 @@ sudo chown -R vscode react-app.client/node_modules 2>/dev/null || true
 sudo chown -R vscode react-app.Server/bin 2>/dev/null || true
 sudo chown -R vscode react-app.Server/obj 2>/dev/null || true
 
+echo "Installing Starship prompt..."
+# Install Starship if not already installed
+if ! command -v starship &> /dev/null; then
+    echo "Starship not found, installing..."
+    # Download and verify the installation script executed successfully
+    if curl -sS https://starship.rs/install.sh | sh -s -- -y > /dev/null 2>&1 && command -v starship &> /dev/null; then
+        echo "Starship installed successfully"
+    else
+        echo "Warning: Failed to install Starship. Continuing without Starship prompt."
+    fi
+else
+    echo "Starship is already installed"
+fi
+
+# Configure Fish shell (should be installed by devcontainer feature)
+FISH_PATH=$(command -v fish 2>/dev/null || true)
+if [ -n "$FISH_PATH" ]; then
+    echo "Fish found at $FISH_PATH"
+    
+    # Initialize Starship for Fish if both are installed
+    if command -v starship &> /dev/null; then
+        echo "Configuring Starship for Fish..."
+        # Create a local config file for Starship (separate from host-mounted config)
+        mkdir -p /home/vscode/.config/fish/conf.d
+        if [ ! -f /home/vscode/.config/fish/conf.d/starship.fish ]; then
+            echo "starship init fish | source" > /home/vscode/.config/fish/conf.d/starship.fish
+            if chown vscode:vscode /home/vscode/.config/fish/conf.d/starship.fish 2>/dev/null; then
+                echo "Added Starship initialization to Fish conf.d"
+            else
+                echo "Warning: Created Starship config but failed to set ownership. File may have incorrect permissions."
+            fi
+        fi
+    fi
+    
+    echo "Setting Fish as default shell..."
+    # Add Fish to /etc/shells if not already there
+    if ! grep -q "$FISH_PATH" /etc/shells; then
+        echo "$FISH_PATH" | sudo tee -a /etc/shells > /dev/null
+        echo "Added Fish to /etc/shells"
+    fi
+    if ! sudo chsh -s "$FISH_PATH" vscode; then
+        echo "Warning: Failed to change default shell to Fish. Fish is in /etc/shells. You may need to run 'chsh -s \"$FISH_PATH\"' manually or check permissions."
+    else
+        echo "Successfully set Fish as default shell for vscode user"
+    fi
+else
+    echo "Warning: Fish shell not found. Skipping Fish configuration."
+fi
+
 echo "Setup complete!"

@@ -2,16 +2,18 @@
 
 # ASP.NET Core + React DevContainer
 
-A development container setup for ASP.NET Core 9.0 backend with React frontend and SQL Server database.
+A development container setup for ASP.NET Core 9.0 backend with React frontend and PostgreSQL database.
 
 ## Features
 
 - **ASP.NET Core 9.0** - Backend API
 - **React + Vite** - Frontend application  
-- **SQL Server 2022** - Database
+- **PostgreSQL 16** - Database
+- **Fish Shell with Starship Prompt** - Modern terminal experience with host config sharing
 - **DevContainer Features** - No custom Dockerfile needed
   - Node.js LTS (via devcontainer feature)
-  - MSSQL command-line tools (via devcontainer feature)
+  - Fish shell (via devcontainer feature)
+  - Starship prompt (installed via official install script)
 
 ## Getting Started
 
@@ -27,12 +29,17 @@ A development container setup for ASP.NET Core 9.0 backend with React frontend a
 
 - **VS Code Extensions:**
   - C# Dev Kit
-  - MSSQL extension with pre-configured connection
+  - PostgreSQL client with pre-configured connection
   - EditorConfig
   - Prettier
 
+- **Terminal:**
+  - Fish shell as default terminal
+  - Starship prompt pre-configured
+  - Host Fish and Starship configurations are automatically mounted and shared
+
 - **Database:**
-  - SQL Server 2022 running in separate container
+  - PostgreSQL 16 running in separate container
   - Database name: `ApplicationDB`
   - Connection string available as environment variable
 
@@ -40,14 +47,27 @@ A development container setup for ASP.NET Core 9.0 backend with React frontend a
 
 The devcontainer will automatically:
 - Install Node.js LTS
-- Install MSSQL tools
+- Install Fish shell and Starship prompt
+- Set Fish as the default shell
+- Mount your host Fish configuration (`~/.config/fish`)
 - Restore .NET packages
 - Install npm packages
-- Initialize the database
+- Initialize the PostgreSQL database
 
 Connection string is available in the environment:
 ```
-ConnectionStrings__DefaultConnection=Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd;TrustServerCertificate=True
+ConnectionStrings__DefaultConnection=Host=db;Database=ApplicationDB;Username=postgres;Password=P@ssw0rd
 ```
+
+### Shell Configuration
+
+The devcontainer automatically shares your host's Fish configuration:
+- **Fish config**: `~/.config/fish` on your host is mounted to `/home/vscode/.config/fish` in the container (read-only)
+
+This means your custom Fish functions, aliases, and other Fish configurations will be available in the container without any additional setup. Starship is installed and will use its default configuration.
+
+> **Note**: The Fish configuration is mounted as read-only to prevent accidental modifications from within the container.
+
+> **Note**: If you don't have a Fish configuration on your host system, Docker may create an empty `~/.config/fish` directory. This is safe — Fish will fall back to its default configuration inside the container. If you prefer, you can comment out the volume mount for `~/.config/fish` in `.devcontainer/compose.yml`.
 
 > ⚠️ **Security Note**: The default password `P@ssw0rd` is intended for local development only. Never use this password or these credentials in production or any non-development environment.
