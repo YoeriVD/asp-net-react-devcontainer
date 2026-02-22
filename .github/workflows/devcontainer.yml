@@ -26,13 +26,18 @@ jobs:
           # Verify .NET is installed
           dotnet --version
           
-          # Verify sqlcmd is available and functional
-          if command -v sqlcmd &> /dev/null; then
-            sqlcmd -? > /dev/null 2>&1 && echo "sqlcmd is functional in PATH"
-          elif [ -f /opt/mssql-tools18/bin/sqlcmd ]; then
-            /opt/mssql-tools18/bin/sqlcmd -? > /dev/null 2>&1 && echo "sqlcmd is functional at /opt/mssql-tools18/bin/sqlcmd"
-          elif [ -f /opt/mssql-tools/bin/sqlcmd ]; then
-            /opt/mssql-tools/bin/sqlcmd -? > /dev/null 2>&1 && echo "sqlcmd is functional at /opt/mssql-tools/bin/sqlcmd"
+          # Verify psql is available and functional
+          if command -v psql &> /dev/null; then
+            psql --version && echo "psql is functional"
+          else
+            echo "Warning: psql not found in PATH"
+          fi
+          
+          # Verify fish shell is available
+          if command -v fish &> /dev/null; then
+            fish --version && echo "fish shell is functional"
+          else
+            echo "Warning: fish shell not found"
           fi
           
           # Verify project structure

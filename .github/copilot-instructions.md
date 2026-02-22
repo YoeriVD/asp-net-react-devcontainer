@@ -1,7 +1,7 @@
 # ASP.NET React DevContainer Project
 
 ## Project Overview
-This is a full-stack web application using ASP.NET Core 9.0 backend with a React (TypeScript + Vite) frontend, designed to run in a development container with MS SQL Server database support.
+This is a full-stack web application using ASP.NET Core 9.0 backend with a React (TypeScript + Vite) frontend, designed to run in a development container with PostgreSQL database support.
 
 ## Repository Structure
 
@@ -13,8 +13,7 @@ This is a full-stack web application using ASP.NET Core 9.0 backend with a React
 
 ### Important Files
 - `react-app.sln` - .NET solution file (root)
-- `compose.yml` - Docker Compose configuration for devcontainer
-- `Dockerfile` - Container image definition
+- `.devcontainer/compose.yml` - Docker Compose configuration for devcontainer
 - `react-app.Server/react-app.Server.csproj` - Backend project file (.NET 9.0)
 - `react-app.client/package.json` - Frontend dependencies and scripts
 - `react-app.client/vite.config.ts` - Vite configuration
@@ -26,7 +25,7 @@ This is a full-stack web application using ASP.NET Core 9.0 backend with a React
 ### Backend
 - **Runtime**: .NET 9.0
 - **Framework**: ASP.NET Core Web API
-- **Database**: MS SQL Server 2025
+- **Database**: PostgreSQL 16
 - **API Documentation**: Swashbuckle (Swagger)
 
 ### Frontend
@@ -96,23 +95,25 @@ cd react-app.client && npm run lint
 ## DevContainer Environment
 
 ### Database Configuration
-- **Server**: db,1433
+- **Server**: db:5432
 - **Database**: ApplicationDB
-- **User**: sa
+- **User**: postgres
 - **Password**: P@ssw0rd
-- **Connection String**: `Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd`
+- **Connection String**: `Host=db;Database=ApplicationDB;Username=postgres;Password=P@ssw0rd`
 
 ### Post-Create Command
 The `.devcontainer/post-create-command.sh` script automatically:
-1. Initializes MS SQL database
+1. Waits for and initializes PostgreSQL database
 2. Restores .NET packages
 3. Installs npm packages
 4. Sets proper permissions for node_modules, bin, and obj directories
+5. Installs Fish shell and Starship prompt
 
-### HTTPS Certificates
-The devcontainer is configured to use HTTPS certificates. Certificates should be generated and placed at:
-- Path: `/https/aspnetapp.pfx`
-- Password: "password"
+### Shell Configuration
+The devcontainer includes:
+- **Fish Shell**: Installed via devcontainer feature and set as default
+- **Starship Prompt**: Installed via official install script
+- **Host Config Sharing**: Host Fish configuration is mounted read-only from `~/.config/fish`
 
 ## CI/CD Workflows
 
@@ -150,9 +151,8 @@ The backend project references the frontend as an `esproj`:
 
 ### Environment Variables
 Key environment variables in devcontainer:
-- `ASPNETCORE_Kestrel__Certificates__Default__Password`: "password"
-- `ASPNETCORE_Kestrel__Certificates__Default__Path`: "/https/aspnetapp.pfx"
-- `ConnectionStrings__DefaultConnection`: "Server=db;Database=ApplicationDB;User=sa;Password=P@ssw0rd"
+- `ConnectionStrings__DefaultConnection`: "Host=db;Database=ApplicationDB;Username=postgres;Password=P@ssw0rd"
+- `ASPNETCORE_URLS`: "http://+:5000"
 
 ## Validation Steps
 
@@ -182,4 +182,5 @@ The project uses SonarCloud for code quality monitoring.
 4. **Respect the SPA proxy setup** - Frontend runs on port 5173, backend proxies to it
 5. **Use the DevContainer** - The project is optimized for DevContainer development
 6. **Check permissions** - If you encounter permission errors with node_modules or bin/obj directories, the post-create script should fix them
-7. **Database connection** - When working in devcontainer, use connection string with server="db" not "localhost"
+7. **Database connection** - When working in devcontainer, use PostgreSQL connection string with Host="db" not "localhost"
+8. **PostgreSQL is preferred** - MS SQL Server support has been replaced with PostgreSQL
