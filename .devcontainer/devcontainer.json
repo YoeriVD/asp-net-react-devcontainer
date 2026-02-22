@@ -8,7 +8,7 @@
     "ghcr.io/devcontainers/features/node:1": {
       "version": "lts"
     },
-    "ghcr.io/meaningful-ooo/devcontainer-features/fish:1": {}
+    "ghcr.io/devcontainers/features/fish:1": {}
   },
 
   "customizations": {
