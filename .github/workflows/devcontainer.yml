@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3  # v6.0.0
-    
+
     - name: Build and run Dev Container task
       uses: devcontainers/ci@8bf61b26e9c3a98f69cb6ce2f88d24ff59b785c6  # v0.3
       with:
@@ -22,29 +22,29 @@ jobs:
           # Verify Node.js is installed
           node --version
           npm --version
-          
+
           # Verify .NET is installed
           dotnet --version
-          
+
           # Verify psql is available and functional
           if command -v psql &> /dev/null; then
             psql --version && echo "psql is functional"
           else
             echo "Warning: psql not found in PATH"
           fi
-          
+
           # Verify fish shell is available
           if command -v fish &> /dev/null; then
             fish --version && echo "fish shell is functional"
           else
             echo "Warning: fish shell not found"
           fi
-          
+
           # Verify project structure
           ls -la
-          
+
           # Test .NET restore
           dotnet restore
-          
+
           # Test npm install
           cd react-app.client && npm install

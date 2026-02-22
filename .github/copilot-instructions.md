@@ -1,17 +1,20 @@
 # ASP.NET React DevContainer Project
 
 ## Project Overview
+
 This is a full-stack web application using ASP.NET Core 9.0 backend with a React (TypeScript + Vite) frontend, designed to run in a development container with PostgreSQL database support.
 
 ## Repository Structure
 
 ### Key Directories
+
 - `react-app.Server/` - ASP.NET Core 9.0 Web API backend
 - `react-app.client/` - React frontend with TypeScript and Vite
 - `.devcontainer/` - DevContainer configuration files
 - `.github/workflows/` - CI/CD workflows
 
 ### Important Files
+
 - `react-app.sln` - .NET solution file (root)
 - `.devcontainer/compose.yml` - Docker Compose configuration for devcontainer
 - `react-app.Server/react-app.Server.csproj` - Backend project file (.NET 9.0)
@@ -23,12 +26,14 @@ This is a full-stack web application using ASP.NET Core 9.0 backend with a React
 ## Technology Stack
 
 ### Backend
+
 - **Runtime**: .NET 9.0
 - **Framework**: ASP.NET Core Web API
 - **Database**: PostgreSQL 16
 - **API Documentation**: Swashbuckle (Swagger)
 
 ### Frontend
+
 - **Runtime**: Node.js v24.13.0, npm 11.6.2
 - **Framework**: React 19.0
 - **Language**: TypeScript 5.2+
@@ -38,13 +43,16 @@ This is a full-stack web application using ASP.NET Core 9.0 backend with a React
 ## Build and Development
 
 ### Prerequisites
+
 Before building, always ensure dependencies are installed:
+
 1. **Backend**: Always run `dotnet restore` first
 2. **Frontend**: Always run `npm --prefix react-app.client install` or `cd react-app.client && npm install`
 
 ### Build Commands
 
 #### Complete Build Process (Recommended Order)
+
 ```bash
 # 1. Restore .NET dependencies
 dotnet restore
@@ -60,6 +68,7 @@ cd react-app.client && npm run build
 ```
 
 #### Production Build
+
 ```bash
 dotnet publish -c Release --no-restore
 ```
@@ -67,6 +76,7 @@ dotnet publish -c Release --no-restore
 ### Running the Application
 
 The application uses SPA proxy for development:
+
 - Backend runs on default ASP.NET Core ports
 - Frontend Vite dev server runs on https://localhost:5173
 - The backend proxies to the frontend during development
@@ -83,6 +93,7 @@ dotnet test --verbosity normal
 ### Linting
 
 #### Frontend Linting
+
 **IMPORTANT**: The frontend uses ESLint 9.x which has a configuration issue. The project has `.eslintrc.cjs` but ESLint 9 expects `eslint.config.js`. The lint command in package.json currently fails.
 
 ```bash
@@ -95,6 +106,7 @@ cd react-app.client && npm run lint
 ## DevContainer Environment
 
 ### Database Configuration
+
 - **Server**: db:5432
 - **Database**: ApplicationDB
 - **User**: postgres
@@ -102,7 +114,9 @@ cd react-app.client && npm run lint
 - **Connection String**: `Host=db;Database=ApplicationDB;Username=postgres;Password=P@ssw0rd`
 
 ### Post-Create Command
+
 The `.devcontainer/post-create-command.sh` script automatically:
+
 1. Waits for and initializes PostgreSQL database
 2. Restores .NET packages
 3. Installs npm packages
@@ -110,7 +124,9 @@ The `.devcontainer/post-create-command.sh` script automatically:
 5. Installs Fish shell and Starship prompt
 
 ### Shell Configuration
+
 The devcontainer includes:
+
 - **Fish Shell**: Installed via devcontainer feature and set as default
 - **Starship Prompt**: Installed via official install script
 - **Host Config Sharing**: Host Fish configuration is mounted read-only from `~/.config/fish`
@@ -118,22 +134,27 @@ The devcontainer includes:
 ## CI/CD Workflows
 
 ### .NET Build Workflow (`.github/workflows/dotnet.yml`)
+
 Runs on pushes and PRs to main branch:
+
 1. Setup .NET 9.0.x
 2. `dotnet restore`
 3. `dotnet publish -c Release --no-restore`
 4. `dotnet test --verbosity normal`
 
 ### Docker Image Workflow (`.github/workflows/docker-image.yml`)
+
 Builds Docker images (configuration not viewed in detail)
 
 ## Project Configuration
 
 ### Backend Configuration Files
+
 - `appsettings.json` - Production settings
 - `appsettings.Development.json` - Development-specific settings
 
 ### Frontend Configuration Files
+
 - `tsconfig.json` - TypeScript compiler configuration
 - `tsconfig.node.json` - TypeScript config for Node.js tools
 - `vite.config.ts` - Vite bundler configuration
@@ -142,7 +163,9 @@ Builds Docker images (configuration not viewed in detail)
 ## Common Development Patterns
 
 ### SPA Integration
+
 The backend project references the frontend as an `esproj`:
+
 ```xml
 <ProjectReference Include="..\react-app.client\react-app.client.esproj">
   <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
@@ -150,13 +173,16 @@ The backend project references the frontend as an `esproj`:
 ```
 
 ### Environment Variables
+
 Key environment variables in devcontainer:
+
 - `ConnectionStrings__DefaultConnection`: "Host=db;Database=ApplicationDB;Username=postgres;Password=P@ssw0rd"
 - `ASPNETCORE_URLS`: "http://+:5000"
 
 ## Validation Steps
 
 Before submitting changes:
+
 1. Run `dotnet restore` to ensure all .NET dependencies are resolved
 2. Run `dotnet build` to verify the solution builds without errors
 3. Run `dotnet test --verbosity normal` to ensure tests pass (even if no tests exist)
@@ -172,6 +198,7 @@ Before submitting changes:
 3. **npm Vulnerabilities**: After `npm install`, there are typically 12 vulnerabilities reported. These are in development dependencies and don't require immediate action unless updating packages.
 
 ## Quality Gates
+
 The project uses SonarCloud for code quality monitoring.
 
 ## Best Practices for Changes
